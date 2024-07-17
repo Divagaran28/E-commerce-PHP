@@ -1,3 +1,26 @@
+<?php
+
+include('server/connection.php');
+
+if (isset($_GET['product_id'])) {
+
+    $product_id = $_GET['product_id'];
+
+    $stmt = $conn->prepare('SELECT * FROM products WHERE product_id = ?');
+
+    $stmt->bind_param("i", $product_id);
+
+    $stmt->execute();
+
+    $product = $stmt->get_result();
+} else {
+    header('location: index.php');
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,10 +28,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Single_Product</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
@@ -17,39 +38,37 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white bg-body-tertiary py-3 fixed-top">
         <div class="container-fluid">
-            <img class="logo" src="assets/images/logo.png" alt="">
+            <a href="index.php"><img class="logo" src="assets/images/logo.png" alt=""></a>
             <h2 class="brand">Oracle</h2>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse nav-button" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    
+
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="index.php">Home</a>
                     </li>
-    
+
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">Shop</a>
+                        <a class="nav-link" href="shop.php">Shop</a>
                     </li>
-    
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">Blog</a>
                     </li>
-    
+
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
+                        <a class="nav-link" href="contact.php">Contact Us</a>
                     </li>
-    
+
                     <li class="nav-item">
-                        <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                        <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
                         <a href="account.html"><i class="fas fa-user"></i></a>
                     </li>
-    
+
                 </ul>
-    
+
             </div>
         </div>
     </nav>
@@ -57,34 +76,50 @@
     <!-- single-product -->
     <section class="container single-product my-5 pt-5">
         <div class="row mt-5">
-            <div class="col-lg-5 col-md-6 col-sm-12">
-                <img src="assets/images/shoes.jpg" alt="" class="img-fluid w-100 pb-1" id="mainImg">
-                <div class="small-img-group">
-                    <div class="small-img-col">
-                        <img src="assets/images/decathlon.jpg" alt="" width="100%" class="small-img">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="assets/images/cricket.jpg" alt="" width="100%" class="small-img">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="assets/images/sports.jpg" alt="" width="100%" class="small-img">
-                    </div>
-                    <div class="small-img-col">
-                        <img src="assets/images/football.jpg" alt="" width="100%" class="small-img">
+
+            <?php while ($row = $product->fetch_assoc()) { ?>
+
+
+
+                <div class="col-lg-5 col-md-6 col-sm-12">
+                    <img src="assets/images/<?php echo $row['product_image']; ?>" alt="" class="img-fluid w-100 pb-1" id="mainImg">
+                    <div class="small-img-group">
+                        <div class="small-img-col">
+                            <img src="assets/images/<?php echo $row['product_image']; ?>" alt="" width="100%" class="small-img">
+                        </div>
+                        <div class="small-img-col">
+                            <img src="assets/images/<?php echo $row['product_image2']; ?>" alt="" width="100%" class="small-img">
+                        </div>
+                        <div class="small-img-col">
+                            <img src="assets/images/<?php echo $row['product_image3']; ?>" alt="" width="100%" class="small-img">
+                        </div>
+                        <div class="small-img-col">
+                            <img src="assets/images/<?php echo $row['product_image4']; ?>" alt="" width="100%" class="small-img">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-12 col-12">
-                <h6>Men/Shoes</h6>
-                <h3 class="py-4">Men's Fashion</h3>
-                <h2>$155</h2>
-                <input type="number" value="1">
-                <button class="buy-btn">Add To Cart</button>
-                <h4 class="my-5">Product details</h4>
-                <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illum, possimus, explicabo sed commodi
-                    ea mollitia molestias, et est voluptate autem labore blanditiis aut cumque? Ad vel ut repellat
-                    debitis odio!</span>
-            </div>
+
+
+                <div class="col-lg-6 col-md-12 col-12">
+                    <h6>Men/Shoes</h6>
+                    <h3 class="py-4"><?php echo $row['product_name']; ?></h3>
+                    <h2>$<?php echo $row['product_price']; ?></h2>
+
+                    <form method="POST" action="cart.php">
+                        <input type="hidden" name="product_id" value="<?php echo $row['product_id']; ?>">
+                        <input type="hidden" name="product_image" value="<?php echo $row['product_image']; ?>">
+                        <input type="hidden" name="product_name" value="<?php echo $row['product_name']; ?>">
+                        <input type="hidden" name="product_price" value="<?php echo $row['product_price']; ?>">
+                        <input type="number" name="product_quantity" value="1">
+                        <button class="buy-btn" type="submit" name="add_to_cart">Add To Cart</button>
+                    </form>
+
+                    <h4 class="my-5">Product details</h4>
+                    <span><?php echo $row['product_description']; ?></span>
+                </div>
+
+
+            <?php } ?>
         </div>
     </section>
 
@@ -216,15 +251,13 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         var mainImg = document.getElementById("mainImg");
         var smallImg = document.getElementsByClassName("small-img");
 
         for (let i = 0; i < 4; i++) {
-            smallImg[i].onclick = function () {
+            smallImg[i].onclick = function() {
                 mainImg.src = smallImg[i].src;
             }
         }

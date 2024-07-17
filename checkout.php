@@ -1,3 +1,29 @@
+<?php
+
+
+session_start();
+
+if(!empty($_SESSION['cart']) && isset($_POST['checkout'])){
+
+}
+//send user to home page
+else{
+header('location:index.php');
+}
+
+
+
+
+
+
+
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,39 +43,37 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white bg-body-tertiary py-3 fixed-top">
         <div class="container-fluid">
-            <img class="logo" src="assets/images/logo.png" alt="">
+            <a href="index.php"><img class="logo" src="assets/images/logo.png" alt=""></a>
             <h2 class="brand">Oracle</h2>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse nav-button" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    
+
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
+                        <a class="nav-link" href="index.php">Home</a>
                     </li>
-    
+
                     <li class="nav-item">
-                        <a class="nav-link" href="shop.html">Shop</a>
+                        <a class="nav-link" href="shop.php">Shop</a>
                     </li>
-    
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">Blog</a>
                     </li>
-    
+
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
+                        <a class="nav-link" href="contact.php">Contact Us</a>
                     </li>
-    
+
                     <li class="nav-item">
-                        <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                        <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
                         <a href="account.html"><i class="fas fa-user"></i></a>
                     </li>
-    
+
                 </ul>
-    
+
             </div>
         </div>
     </nav>
@@ -62,7 +86,7 @@
         <hr class="mx-auto">
     </div>
     <div class="mx-auto container">
-        <form action="" id="checkout-form">
+        <form action="server/place_order.php" id="checkout-form" method="POST">
             <div class="form-group checkout-small-element">
                 <label for="">Name</label>
                 <input type="text" class="form-control" id="checkout-name" name="name" placeholder="Name" required>
@@ -84,7 +108,8 @@
                 <input type="text" class="form-control" id="checkout-address" name="address" placeholder="Address" required>
             </div>
             <div class="form-group checkout-btn-container">
-                <input type="submit" class="btn" id="checkout-btn" value="Checkout">
+                <p>Total Amount: $ <?php echo $_SESSION['total'];?></p>
+                <input type="submit" class="btn" id="checkout-btn" value="Place Order" name="place_order">
             </div>
         </form>
     </div>
